@@ -1,12 +1,14 @@
-package com.ecom.api.Products.Model;
+package com.ecom.api.products.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
 @Entity
 public class Product {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
@@ -42,5 +44,16 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @ManyToOne
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

@@ -1,4 +1,4 @@
-package com.ecom.api.Products.Controller;
+package com.ecom.api.products.controller;
 
 public class CartItemRequest {
     private Long productId;

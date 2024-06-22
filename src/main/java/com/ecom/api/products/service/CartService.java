@@ -1,7 +1,7 @@
-package com.ecom.api.Products.Service;
+package com.ecom.api.products.service;
 
-import com.ecom.api.Products.Repository.CartRepository;
-import com.ecom.api.Products.Model.Cart;
+import com.ecom.api.products.repository.CartRepository;
+import com.ecom.api.products.model.Cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

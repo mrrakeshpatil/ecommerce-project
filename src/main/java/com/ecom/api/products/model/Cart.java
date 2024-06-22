@@ -1,4 +1,4 @@
-package com.ecom.api.Products.Model;
+package com.ecom.api.products.model;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;

@@ -1,7 +1,7 @@
-package com.ecom.api.Products.Service;
+package com.ecom.api.products.service;
 
-import com.ecom.api.Products.Repository.ProductRepository;
-import com.ecom.api.Products.Model.Product;
+import com.ecom.api.products.repository.ProductRepository;
+import com.ecom.api.products.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
