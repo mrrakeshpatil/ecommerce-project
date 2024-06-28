@@ -1,11 +1,12 @@
 package com.ecom.api.products.controller;
 
-import com.ecom.api.products.service.CartService;
 import com.ecom.api.products.model.Cart;
+import com.ecom.api.products.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
 //- `POST /api/carts`: This API should create a new empty shopping cart and return its unique `cartId`.
 @RestController
 @RequestMapping("/api/carts")

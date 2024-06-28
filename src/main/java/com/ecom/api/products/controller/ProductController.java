@@ -1,15 +1,18 @@
 package com.ecom.api.products.controller;
 
+import com.ecom.api.products.model.Product;
 import com.ecom.api.products.repository.CategoryRepository;
 import com.ecom.api.products.repository.ProductRepository;
 import com.ecom.api.products.service.ProductService;
-import com.ecom.api.products.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -23,16 +26,16 @@ public class ProductController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
-    }
-
 //    @GetMapping
 //    public List<Product> getAllProducts() {
-//        return productRepository.findAll();
+//        return productService.getAllProducts();
 //    }
 
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+//
 //    @GetMapping("/{id}")
 //    public Optional<Product> getProductById(@PathVariable Long id) {
 //        return productService.getProductById(id);
@@ -59,6 +62,10 @@ public class ProductController {
                 }).orElse(ResponseEntity.badRequest().build());
     }
 
+    @GetMapping("/search")
+    public List<Product> searchProducts(@RequestParam String query) {
+        return productRepository.findByNameContainingOrDescriptionContaining(query, query);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
@@ -75,32 +82,32 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id, @RequestBody Product productDetails) {
+
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(params = "category_id")
-    public List<Product> getProductsByCategoryId(@RequestParam("category_id") Long categoryId) {
+    //    @GetMapping(params = "category_id")
+//    public List<Product> getProductsByCategoryId(@RequestParam("category_id") Long categoryId) {
+//        return productRepository.findByCategoryId(categoryId);
+//    }
+    @GetMapping("/category")
+    public List<Product> getProductsByCategoryId(@RequestParam Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @GetMapping("/page")
+    public Page<Product> getProductsPage(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String sortField,
+            @RequestParam String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return productRepository.findAll(pageable);
+    }
 
 
 }
