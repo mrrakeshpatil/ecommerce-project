@@ -26,21 +26,13 @@ public class ProductController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-//    @GetMapping
-//    public List<Product> getAllProducts() {
-//        return productService.getAllProducts();
-//    }
-
     @GetMapping
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productService.getAllProducts();
     }
-//
-//    @GetMapping("/{id}")
-//    public Optional<Product> getProductById(@PathVariable Long id) {
-//        return productService.getProductById(id);
-//    }
 
+
+    //-- Update GET /api/products to include category details in the response
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return productRepository.findById(id)
@@ -48,10 +40,6 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-//    @PostMapping
-//    public Product createProduct(@RequestBody Product product) {
-//        return productService.createProduct(product);
-//    }
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
@@ -62,6 +50,7 @@ public class ProductController {
                 }).orElse(ResponseEntity.badRequest().build());
     }
 
+    //-- GET /api/products/search?query={search_term}: Search products by name or description
     @GetMapping("/search")
     public List<Product> searchProducts(@RequestParam String query) {
         return productRepository.findByNameContainingOrDescriptionContaining(query, query);
@@ -88,14 +77,15 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    //    @GetMapping(params = "category_id")
-//    public List<Product> getProductsByCategoryId(@RequestParam("category_id") Long categoryId) {
-//        return productRepository.findByCategoryId(categoryId);
-//    }
-    @GetMapping("/category")
-    public List<Product> getProductsByCategoryId(@RequestParam Long categoryId) {
+    //--Update POST /api/products to accept category_id
+    @GetMapping(params = "category_id")
+    public List<Product> getProductsByCategoryId(@RequestParam("category_id") Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
+
+//5. Pagination and Sorting:
+//- Implement pagination and sorting for product listing:
+//-- GET /api/products?page={page_number}&size={page_size}&sort={sort_field},{sort_direction}
 
     @GetMapping("/page")
     public Page<Product> getProductsPage(

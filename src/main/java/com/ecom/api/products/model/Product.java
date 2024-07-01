@@ -45,7 +45,7 @@ public class Product {
     public void setId(Long id) {
         this.id = id;
     }
-
+//- Update the Product entity to include a many-to-one relationship with Category
     @ManyToOne
     private Category category;
 
