@@ -1,9 +1,7 @@
 package com.ecom.api.products.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
 @Entity
 public class Product {
 
@@ -13,6 +11,27 @@ public class Product {
     private String name;
     private String description;
     private double price;
+
+//- Update the Product entity to include a many-to-one relationship with Category
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public double getPrice() {
         return price;
@@ -36,24 +55,5 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-//- Update the Product entity to include a many-to-one relationship with Category
-    @ManyToOne
-    private Category category;
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 }

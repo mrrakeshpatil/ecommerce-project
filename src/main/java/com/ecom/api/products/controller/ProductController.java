@@ -21,10 +21,10 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    private ProductRepository productRepository;
+    private  ProductRepository productRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private  CategoryRepository categoryRepository;
 
     @GetMapping
     public List<Product> getAllProducts() {
@@ -39,11 +39,14 @@ public class ProductController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
-
     @PostMapping
+    public Product createProducts(@RequestBody Product product) {
+        return productService.save(product);
+    }
+
+    @PostMapping("/")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        return categoryRepository.findById(product.getCategory().getId())
+        return categoryRepository.findById(product.getId())
                 .map(category -> {
                     product.setCategory(category);
                     return ResponseEntity.ok(productRepository.save(product));
@@ -77,17 +80,18 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    //--Update POST /api/products to accept category_id
+    //- GET /api/products?category_id={category_id}: Retrieve products filtered by category
     @GetMapping(params = "category_id")
     public List<Product> getProductsByCategoryId(@RequestParam("category_id") Long categoryId) {
         return productRepository.findByCategoryId(categoryId);
     }
 
-//5. Pagination and Sorting:
-//- Implement pagination and sorting for product listing:
-//-- GET /api/products?page={page_number}&size={page_size}&sort={sort_field},{sort_direction}
+    //5. Pagination and Sorting:
+    //- Implement pagination and sorting for product listing:
+    //-- GET /api/products?page={page_number}&size={page_size}&sort={sort_field},{sort_direction}
 
-    @GetMapping("/page")
+
+        @GetMapping("/page")
     public Page<Product> getProductsPage(
             @RequestParam int page,
             @RequestParam int size,
@@ -98,6 +102,11 @@ public class ProductController {
         Pageable pageable = PageRequest.of(page, size, sort);
         return productRepository.findAll(pageable);
     }
+
+
+
+
+
 
 
 }

@@ -20,7 +20,8 @@ public class CartService {
         return cartRepository.findById(id);
     }
 
-    public Cart addItemToCart(Long cartId, Long productId, int quantity) {
+    public Cart addItemToCart(Long cartId, Long productId, int quantity)
+    {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart not found"));
         cart.getItems().put(productId, cart.getItems().getOrDefault(productId, 0) + quantity);
         return cartRepository.save(cart);
