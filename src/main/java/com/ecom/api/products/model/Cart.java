@@ -1,35 +1,29 @@
 package com.ecom.api.products.model;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Cart {
     @Id
     @GeneratedValue
     private Long id;
     @ElementCollection
     private Map<Long, Integer> items = new HashMap<>();
+    private double totalCost;
+    private String discountCode;
+    private double discount;
 
-    public Map<Long, Integer> getItems() {
-        return items;
-    }
 
-    public void setItems(Map<Long, Integer> items) {
-        this.items = items;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

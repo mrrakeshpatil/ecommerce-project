@@ -4,6 +4,8 @@ import com.ecom.api.products.model.Cart;
 import com.ecom.api.products.service.CartService;
 import com.ecom.api.products.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -50,4 +52,14 @@ public class CartController {
     public Cart removeItemFromCart(@PathVariable Long cartId, @PathVariable Long itemId) {
         return cartService.removeItemFromCart(cartId, itemId);
     }
+    //- Add an API to apply a discount to a cart:
+    //POST /api/carts/{cartId}/apply-discount: Apply a discount code to the cart
+
+    @PostMapping("/{cartId}/apply-discount")
+    public ResponseEntity<Cart> applyDiscountCode(@PathVariable("cartId") Long cartId, @RequestParam("apply-discount")String discountCode){
+        return new ResponseEntity<>(cartService.cartValueAfterDiscount(cartId,discountCode), HttpStatus.OK);
+    }
 }
+
+
+
