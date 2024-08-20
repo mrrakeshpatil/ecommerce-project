@@ -102,8 +102,13 @@ public class ProductController {
         Pageable pageable = PageRequest.of(page, size, sort);
         return productRepository.findAll(pageable);
     }
-
-
+//- Create an API to update product stock:
+//PATCH /api/products/{id}/stock: Update the stock of a product
+    @PatchMapping("/{id}/stock")
+    public ResponseEntity<Product> updateStock(@PathVariable Long id, @RequestParam int stock) {
+        Product updatedProduct = productService.updateStock(id, stock);
+        return ResponseEntity.ok(updatedProduct);
+    }
 
 
 

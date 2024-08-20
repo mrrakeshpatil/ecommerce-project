@@ -3,6 +3,7 @@ package com.ecom.api.products.service;
 import com.ecom.api.products.repository.CategoryRepository;
 import com.ecom.api.products.repository.ProductRepository;
 import com.ecom.api.products.model.Product;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,7 +47,17 @@ public class ProductService {
         public Page<Product> getProductWithPaginationAndSorting(int pageNumber, int pageSize, String field){
         return productRepository.findAll(PageRequest.of(pageNumber,pageSize).withSort(Sort.by(Sort.Direction.ASC,field)));
     }
-
+    @Transactional
+    public Product updateStock(Long id, int newStock) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setStock((long) newStock);
+            return productRepository.save(product);
+        } else {
+            throw new RuntimeException("Product not found");
+        }
+    }
 
 
 }

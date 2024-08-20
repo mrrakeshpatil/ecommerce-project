@@ -11,8 +11,17 @@ public class Product {
     private String name;
     private String description;
     private double price;
+    private Long stock;
 
-//- Update the Product entity to include a many-to-one relationship with Category
+    public Long getStock() {
+        return stock;
+    }
+
+    public void setStock(Long stock) {
+        this.stock = stock;
+    }
+
+    //- Update the Product entity to include a many-to-one relationship with Category
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
